@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/aktivasi', [AuthController::class, 'activate']);
+Route::post('/lupa', [AuthController::class, 'forgot']);
+Route::post('/aktiflupa', [AuthController::class, 'activeforgot']);
+Route::post('/doreset', [AuthController::class, 'doreset']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
