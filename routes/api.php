@@ -21,7 +21,7 @@ Route::post('/aktivasi', [AuthController::class, 'activate']);
 Route::post('/lupa', [AuthController::class, 'forgot']);
 Route::post('/aktiflupa', [AuthController::class, 'activeforgot']);
 Route::post('/doreset', [AuthController::class, 'doreset']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::resource('events', EventController::class);
