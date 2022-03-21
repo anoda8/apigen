@@ -11,4 +11,8 @@ class Events extends Model
 
     protected $fillable = ['user_id','take_photo', 'take_location', 'take_time', 'start_date', 'end_date', 'notes', 'token', 'event_name'];
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

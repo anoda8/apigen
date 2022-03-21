@@ -15,7 +15,17 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Events::all();
+        return Events::orderBy('created_at', "DESC")->paginate(10);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function main($userid)
+    {
+        return Events::where('user_id', $userid)->latest()->take(3)->get();
     }
 
     /**
@@ -77,7 +87,7 @@ class EventController extends Controller
 
     public function token($token)
     {
-        return Events::where('token', 'like', $token)->get();
+        return Events::with('author')->where('token', 'like', "%".$token."%")->get()->first();
     }
 
 }

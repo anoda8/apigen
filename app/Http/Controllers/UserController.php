@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Audiences;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class AudienceController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +14,17 @@ class AudienceController extends Controller
      */
     public function index()
     {
-        return Audiences::with('event', 'user')->orderBy('created_at', "DESC")->paginate(10);
+        return User::all();
     }
 
     /**
-     * Display a listing of the resource.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function main($userid)
+    public function create()
     {
-        return Audiences::with('event', 'user')->where('user_id', $userid)->latest()->take(3)->get();
+        //
     }
 
     /**
@@ -35,13 +35,7 @@ class AudienceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'events_id' => 'required',
-            'token' => 'required'
-        ]);
-
-        return Audiences::create($request->all());
+        //
     }
 
     /**
@@ -52,7 +46,18 @@ class AudienceController extends Controller
      */
     public function show($id)
     {
-        return Audiences::find($id);
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -64,9 +69,7 @@ class AudienceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $audience = Audiences::find($id);
-        $audience->update($request->all());
-        return $audience;
+        //
     }
 
     /**
@@ -77,14 +80,6 @@ class AudienceController extends Controller
      */
     public function destroy($id)
     {
-        return Audiences::find($id)->delete();
-    }
-
-
-
-    ///////////////////////////////////////////////
-    public function token($token)
-    {
-        return Audiences::where('token', 'like', $token)->get();
+        //
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Register;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 
@@ -149,6 +150,30 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
+    }
+
+    public function logingoogle(Request $request)
+    {
+        $userx = User::where('email', $request->email);
+        if($userx->exists()){
+            $res = Auth::loginUsingId($userx->get()->first()->id);
+            $token = $userx->get()->first()->createToken('presensionprestoken')->plainTextToken;
+            $response = [
+                'user' => $res,
+                'jwt' => $token
+            ];
+            return response($response, 201);
+        }
+        return response(['message' => $request->email], 401);
+    }
+
+    public function cekuser($email)
+    {
+        $userExists = User::where('email', "=", $email)->exists();
+        if($userExists) {
+            return response(['exists' => true], 201);
+        }
+        return response(['exists' => false], 201);
     }
 
     public function logout(Request $request)
