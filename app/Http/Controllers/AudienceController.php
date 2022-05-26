@@ -38,10 +38,30 @@ class AudienceController extends Controller
         $request->validate([
             'user_id' => 'required',
             'events_id' => 'required',
-            'token' => 'required'
+            'token' => 'required',
+            'photoUrl' => 'nullable|mimes:png,jpg,jpeg|max:8096'
         ]);
 
-        return Audiences::create($request->all());
+        $photoUrlName = '';
+        if($request->photoUrl){
+            $photoUrlName = time().'.'.$request->file('photoUrl')->getClientOriginalExtension();
+            $request->file('photoUrl')->move(public_path('photos', $photoUrlName));
+        }
+
+        // $request->merge(['photoUrl' => $photoUrlName]);
+        // dd($photoUrlName);
+
+        return Audiences::create([
+            'photoUrl' => $photoUrlName,
+            'entry_date' => $request->entry_date,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'message' => $request->message,
+            'token' => $request->token,
+            'saved' => $request->saved,
+            'user_id' => $request->user_id,
+            'events_id' => $request->events_id
+        ]);
     }
 
     /**
