@@ -44,14 +44,14 @@ class AudienceController extends Controller
 
         $photoUrlName = '';
         if($request->photoUrl){
-            $photoUrlName = time().'.'.$request->file('photoUrl')->getClientOriginalExtension();
-            $request->file('photoUrl')->move(public_path('photos', $photoUrlName));
+            $photoUrlName = md5(time()).'.'.$request->photoUrl->getClientOriginalExtension();
+            $request->photoUrl->move(public_path('photos'), $photoUrlName);
         }
 
-        // $request->merge(['photoUrl' => $photoUrlName]);
-        // dd($photoUrlName);
-
-        return Audiences::create([
+        $audience = Audiences::updateOrCreate([
+            'user_id' => $request->user_id,
+            'events_id' => $request->events_id
+        ],[
             'photoUrl' => $photoUrlName,
             'entry_date' => $request->entry_date,
             'latitude' => $request->latitude,
@@ -62,6 +62,8 @@ class AudienceController extends Controller
             'user_id' => $request->user_id,
             'events_id' => $request->events_id
         ]);
+
+        return $audience;
     }
 
     /**
