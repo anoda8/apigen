@@ -42,17 +42,12 @@ class AudienceController extends Controller
             'photoUrl' => 'nullable|mimes:png,jpg,jpeg|max:8096'
         ]);
 
-        $photoUrlName = '';
-        if($request->photoUrl){
-            $photoUrlName = md5(time()).'.'.$request->photoUrl->getClientOriginalExtension();
-            $request->photoUrl->move(public_path('photos'), $photoUrlName);
-        }
+
 
         $audience = Audiences::updateOrCreate([
             'user_id' => $request->user_id,
             'events_id' => $request->events_id
         ],[
-            'photoUrl' => $photoUrlName,
             'entry_date' => $request->entry_date,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -63,7 +58,31 @@ class AudienceController extends Controller
             'events_id' => $request->events_id
         ]);
 
-        return $audience;
+        return json_encode($audience);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'nullable|mimes:png,jpg,jpeg|max:8096'
+        ]);
+
+        // $photoUrlName = null;
+        if($request->hasFile('file')){
+            return "sampe sini";
+
+            $photoUrlName = md5(time()).'.'.$request->file('file')->getClientOriginalExtension();
+            $request->file('file')->move(public_path('photos'), $photoUrlName);
+        }
+
+        return "gak sampe";
     }
 
     /**
