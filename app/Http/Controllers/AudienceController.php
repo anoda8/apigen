@@ -71,16 +71,14 @@ class AudienceController extends Controller
     public function storeImage(Request $request)
     {
         $request->validate([
-            'file' => 'nullable|mimes:png,jpg,jpeg|max:8096'
+            'file' => 'required|mimes:png,jpg,jpeg|max:8096'
         ]);
 
         // $photoUrlName = null;
-        if($request->hasFile('file')){
-            return "sampe sini";
-
+        // if($request->hasFile('file')){
             $photoUrlName = md5(time()).'.'.$request->file('file')->getClientOriginalExtension();
-            $request->file('file')->move(public_path('photos'), $photoUrlName);
-        }
+            $request->file->move(public_path('photos'), $photoUrlName);
+        // }
 
         return "gak sampe";
     }
