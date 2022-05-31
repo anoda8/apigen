@@ -39,7 +39,7 @@ class AudienceController extends Controller
             'user_id' => 'required',
             'events_id' => 'required',
             'token' => 'required',
-            'photoUrl' => 'nullable|mimes:png,jpg,jpeg|max:8096'
+            'photoUrl' => 'nullable'
         ]);
 
         $audience = Audiences::updateOrCreate([
@@ -53,10 +53,11 @@ class AudienceController extends Controller
             'token' => $request->token,
             'saved' => $request->saved,
             'user_id' => $request->user_id,
-            'events_id' => $request->events_id
+            'events_id' => $request->events_id,
+            'photoUrl' => $request->photoUrl
         ]);
 
-        return json_encode($audience);
+        return $audience;
     }
 
 
