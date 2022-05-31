@@ -68,16 +68,17 @@ class AudienceController extends Controller
      */
     public function storeImage(Request $request)
     {
-        // $request->validate([
-        //     'file' => 'nullable|mimes:png,jpg,jpeg|max:8096'
-        // ]);
+        $request->validate([
+            'file' => 'nullable|mimes:png,jpg,jpeg|max:8096'
+        ]);
 
+        $photoUrlName = null;
+        if($request->hasFile('file')){
+            $photoUrlName = md5(time()).'.'.$request->file('file')->getClientOriginalExtension();
+            $request->file->move(public_path('photos'), $photoUrlName);
+        }
 
-        $photoUrlName = md5(time()).'.'.$request->file('file')->getClientOriginalExtension();
-        $request->file->move(public_path('photos'), $photoUrlName);
-
-
-        return "gak sampe";
+        return $photoUrlName;
     }
 
     /**
