@@ -15,4 +15,9 @@ class Events extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    
+    public function audiences()
+    {
+      return $this->hasMany(Audiences::class);
+    }
 }
