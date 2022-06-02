@@ -38,7 +38,12 @@ class AudienceController extends Controller
         $request->validate([
             'user_id' => 'required',
             'events_id' => 'required',
+<<<<<<< HEAD
             'token' => 'required'
+=======
+            'token' => 'required',
+            'photoUrl' => 'nullable'
+>>>>>>> 5f1a075985e517229e729ce3870617bbe4b24f5c
         ]);
 
         $audience = Audiences::updateOrCreate([
@@ -56,7 +61,7 @@ class AudienceController extends Controller
             'photoUrl' => $request->photoUrl
         ]);
 
-        return json_encode($audience);
+        return $audience;
     }
 
 

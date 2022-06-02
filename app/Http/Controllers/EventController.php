@@ -54,7 +54,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        return Events::find($id);
+        return Events::with('audiences')->find($id);
     }
 
     /**
