@@ -41,7 +41,7 @@ class AudienceController extends Controller
             'token' => 'required'
         ]);
 
-        $audience = Audiences::updateOrCreate([
+        Audiences::updateOrCreate([
             'user_id' => $request->user_id,
             'events_id' => $request->events_id
         ],[
@@ -56,7 +56,12 @@ class AudienceController extends Controller
             'photoUrl' => $request->photoUrl
         ]);
 
-        return $audience;
+        $ret = Audiences::with('event', 'user')->where([
+            'user_id' => $request->user_id,
+            'events_id' => $request->events_id
+        ])->get()->first();
+
+        return $ret;
     }
 
 
