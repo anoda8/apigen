@@ -29,6 +29,16 @@ class EventController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list($userid)
+    {
+        return Events::where('user_id', $userid)->latest()->paginate(10);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
