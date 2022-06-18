@@ -33,8 +33,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('audience-upload', [AudienceController::class, 'storeImage']);
     Route::get('/events_token/{token}', [EventController::class, 'token']);
     Route::get('/homeevents/{userid}', [EventController::class, 'main']);
+    Route::get('/listevents/{userid}', [EventController::class, 'list']);
     Route::get('/audiences_token/{token}', [AudienceController::class, 'token']);
     Route::get('/homeaudiences/{userid}', [AudienceController::class, 'main']);
+    Route::get('/listaudiences/{userid}', [AudienceController::class, 'list']);
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 // Route::get('/events', [EventController::class, 'index']);

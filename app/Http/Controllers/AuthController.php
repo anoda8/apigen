@@ -191,6 +191,8 @@ class AuthController extends Controller
 
     public function cekuser($email)
     {
+        $email = str_replace("--", "@", $email);
+        $email = str_replace("_", ".", $email);
         $userExists = User::where('email', "=", $email)->exists();
         if($userExists) {
             return response(['exists' => true], 201);

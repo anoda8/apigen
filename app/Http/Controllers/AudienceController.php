@@ -28,6 +28,16 @@ class AudienceController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list($userid)
+    {
+        return Audiences::with('event', 'user')->where('user_id', $userid)->orderBy('created_at', "DESC")->paginate(10);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
