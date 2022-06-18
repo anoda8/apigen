@@ -10,11 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        $activation_code = $this->randChars();
+
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
@@ -25,10 +28,17 @@ class AuthController extends Controller
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => bcrypt($fields['password']),
-            'kode_aktivasi' => $this->randChars()
+            'kode_aktivasi' => $activation_code
         ]);
 
         //Kirim email kode Aktivasi
+        $details = [
+            'title' => "Activation code for Anoda Guest Book",
+            'body' => "This is your activation code, use it to activate your registration.",
+            'code' => $activation_code
+        ];
+
+        Mail::to($fields['email'])->send(new \App\Mail\MailActivation($details));
 
         $response = ['user' => $register];
 
@@ -55,11 +65,11 @@ class AuthController extends Controller
 
             Register::where('email', $fields['email'])->delete();
 
-            // $token = $user->createToken('presensionprestoken')->plainTextToken;
+            $token = $user->createToken('presensionprestoken')->plainTextToken;
 
             $response = [
                 'user' => $user,
-                // 'jwt' => $token
+                'jwt' => $token
             ];
 
             return response($response, 201);
@@ -79,19 +89,31 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email);
 
+        $activation_code = $this->randChars();
+
+        // return $user->count();
+
         if($user->count() > 0){
 
             $forgot = Forgot::create([
                 'email' => $request->email,
-                'kode_aktivasi' => $this->randChars()
+                'kode_aktivasi' => $activation_code
             ]);
 
             //Kirim email kode aktivasi
+            $details = [
+                'title' => "Password Reset Code for Anoda Guest Book",
+                'body' => "This is your activation code, use it to reset your password.",
+                'code' => $activation_code
+            ];
+
+            Mail::to($request->email)->send(new \App\Mail\MailActivation($details));
+
             return response($forgot, 201);
 
         }else{
 
-            return response(['message' => "Email anda tidak terdaftar"], 401);
+            return response(['message' => "Your email is not registered yet"], 401);
 
         }
 
