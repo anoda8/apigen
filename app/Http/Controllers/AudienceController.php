@@ -48,6 +48,16 @@ class AudienceController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function eventaudiencescount($eventid)
+    {
+        return Audiences::with('user')->where('events_id', $eventid)->count();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

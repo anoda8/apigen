@@ -34,10 +34,11 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/events_token/{token}', [EventController::class, 'token']);
     Route::get('/homeevents/{userid}', [EventController::class, 'main']);
     Route::get('/listevents/{userid}', [EventController::class, 'list']);
-    Route::get('/eventaudiences/{eventid}', [AudienceController::class, 'listevent']);
     Route::get('/audiences_token/{token}', [AudienceController::class, 'token']);
     Route::get('/homeaudiences/{userid}', [AudienceController::class, 'main']);
     Route::get('/listaudiences/{userid}', [AudienceController::class, 'list']);
+    Route::get('/eventaudiences/{eventid}', [AudienceController::class, 'listevent']);
+    Route::get('/eventaudiencescount/{eventid}', [AudienceController::class, 'eventaudiencescount']);
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 // Route::get('/events', [EventController::class, 'index']);
