@@ -30,6 +30,8 @@ Route::get('/userse', [UserController::class, 'index'])->name('userse');
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::resource('events', EventController::class);
     Route::resource('audiences', AudienceController::class);
+    Route::post('users-update', [UserController::class, 'update']);
+    Route::post('users-update-data', [UserController::class, 'profiledata']);
     Route::post('audience-upload', [AudienceController::class, 'storeImage']);
     Route::get('/events_token/{token}', [EventController::class, 'token']);
     Route::get('/homeevents/{userid}', [EventController::class, 'main']);

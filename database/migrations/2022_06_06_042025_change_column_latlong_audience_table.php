@@ -14,8 +14,8 @@ class ChangeColumnLatlongAudienceTable extends Migration
     public function up()
     {
         Schema::table('audiences', function (Blueprint $table) {
-            $table->decimal('latitude', 18,10)->nullable()->change();
-            $table->decimal('longitude', 18,10)->nullable()->change();
+            $table->float('latitude', 18,6)->nullable()->change();
+            $table->float('longitude', 18,6)->nullable()->change();
         });
     }
 

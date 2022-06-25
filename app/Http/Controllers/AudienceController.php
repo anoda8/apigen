@@ -44,7 +44,7 @@ class AudienceController extends Controller
      */
     public function listevent($eventid)
     {
-        return Audiences::with('user')->where('events_id', $eventid)->orderBy('created_at', "DESC")->paginate(10);
+        return Audiences::with('user')->where('events_id', $eventid)->where('entry_date', "!=" ,null)->orderBy('created_at', "DESC")->paginate(10);
     }
 
     /**
@@ -54,7 +54,7 @@ class AudienceController extends Controller
      */
     public function eventaudiencescount($eventid)
     {
-        return Audiences::with('user')->where('events_id', $eventid)->count();
+        return Audiences::with('user')->where('events_id', $eventid)->where('entry_date', "!=" ,null)->count();
     }
 
     /**
